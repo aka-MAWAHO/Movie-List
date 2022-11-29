@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 const Movies =()=>{
@@ -20,24 +21,37 @@ const Movies =()=>{
     fetchAllMovies()
     
     }, [])
+    const handleDelete =async (id)=>{
+try{
+await axios.delete("http://localhost:8800/movies/"+id)
+window.location.reload()
 
+}catch(err){
+console.log(err);
+
+}
+
+    }
+    //delete movie by id 
 
 
     return <div>
         <h1>My Favorite Movies</h1>
 <div className="movies">
 {movies.map(movie=>(
-<div className="movie">
+<div className="movie" key={movie.id}>
 {movie.cover&&<img src={movie.cover} alt="" />}
 <h2>{movie.title}</h2>
 <p>{movie.desc}</p>
-
+<span>{movie.price}</span>
+<button className="delete" onClick={()=>handleDelete(movie.id)}>Delete</button>
+<button className="update"><Link to={`/update/${movie.id}`}>Update</Link></button>
 </div>
 ))}
 
 
 </div>
-
+<button><Link to={'/add'}>Add new movie</Link></button>
 
         </div>;
     

@@ -18,7 +18,7 @@ app.use(cors())
 
 app.get('/', (req, res)=>{
 
-res.json('holla this is backend')
+res.json('hello world')
 
 })
 
@@ -34,15 +34,15 @@ res.json(data)
 
 
 })
+// add movies
 app.post('/movies', (req, res)=>{
 
-    const q ='INSERT INTO movies (`title`,`desc`,`cover`) VALUES (?)'
+    const q ='INSERT INTO movies (`title`,`desc`,`price`,`cover`) VALUES (?)'
 const values=[
 req.body.title,
 req.body.desc,
+req.body.price,
 req.body.cover,
-
-
 ]
 
 db.query (q,[values],(err,data) => {
@@ -50,7 +50,39 @@ db.query (q,[values],(err,data) => {
 
     res.json("movies created successfully")
 })
+});
+
+//delete movie
+app.delete("/movies/:id",(req,res) => {
+
+const movieId = req.params.id
+const q ="DELETE FROM movies WHERE id=?"
+db.query(q,[movieId],(err,data)=>{
+if(err) return res.json(err);
+return res.json("movie deleted successfully")
+
 })
+
+});
+// update movie
+app.put("/movies/:id",(req,res) => {
+
+    const movieId = req.params.id
+    const q ="UPDATE movies SET `title`=?,`desc`=?,`price`=?,`cover`=? WHERE id=? "
+const values=[
+ req.body.title,
+req.body.desc,
+req.body.price,
+req.body.cover,
+]
+
+    db.query(q,[...values,movieId],(err,data)=>{
+    if(err) return res.json(err);
+    return res.json(data);
+    
+    })
+    
+    })
 
 app.listen (8800,()=>{
 

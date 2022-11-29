@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes,Route} from "react-router-dom";
-import Movies from "./pages/Movies";
-import Add from "./pages/Add";
-import Update from "./pages/Update";
+import Movies from "./component/Movies";
+import Add from "./component/Add";
+import Update from "./component/Update";
+import "./style.css"
 function App() {
   return (
     <div className="App">
@@ -9,7 +10,7 @@ function App() {
 <Routes>
   <Route path="/" element={<Movies/>} />
   <Route path="/add" element={<Add/>}/>
-  <Route path="/update" element={<Update/>}/>
+  <Route path="/update/:id" element={<Update/>}/>
 
 </Routes>
 
